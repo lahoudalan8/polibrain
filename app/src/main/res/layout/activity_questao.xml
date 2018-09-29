@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tabhost"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <!-- Aba da questão -->
+            <LinearLayout
+                android:id="@+id/questao"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Chronometer
+                        android:id="@+id/id_chronometer"
+                        android:typeface="serif"
+                        android:textSize="15sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/id_questao_x"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        style="@style/Base.TextAppearance.AppCompat.Title"
+                        android:gravity="center"
+                        android:text="Questao X"
+                        android:textSize="30sp" />
+
+                    <Button
+                        android:id="@+id/id_button_animacao"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:onClick="clicaAnimacao"
+                        android:text="A"
+                        android:textSize="25sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5"
+                    android:orientation="vertical"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:layout_marginBottom="10dp">
+                            <android.support.v7.widget.CardView
+                                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/card_view_enunciado"
+                                android:layout_gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                card_view:cardBackgroundColor="@color/colorCardLight"
+                                card_view:cardCornerRadius="12dp">
+
+                                <katex.hourglass.in.mathlib.MathView
+                                    android:id="@+id/mTextEnunciado"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginBottom="15dp"
+                                    app:setText="$$enunciado$$"
+                                    app:setTextSize="10sp" />
+                            </android.support.v7.widget.CardView>
+                        </LinearLayout>
+
+                    </ScrollView>
+
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <android.support.v7.widget.CardView
+                                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                        android:id="@+id/card_view_A"
+                                        android:layout_gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:focusable="true"
+                                        android:foreground="?android:attr/selectableItemBackground"
+                                        android:clickable="true"
+                                        android:onClick="click_altA"
+                                        card_view:cardBackgroundColor="@color/colorCardLight"
+                                        card_view:cardCornerRadius="12dp">
+
+                                        <katex.hourglass.in.mathlib.MathView
+                                            android:clickable="true"
+                                            android:onClick="click_altA"
+                                            android:id="@+id/mTextAltA"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            app:setText="$$alt_a$$"
+                                            app:setTextSize="8sp" />
+                                    </android.support.v7.widget.CardView>
+
+                                    <android.support.v7.widget.CardView
+                                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                        android:id="@+id/card_view_B"
+                                        android:layout_gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_marginLeft="10dp"
+                                        card_view:cardBackgroundColor="@color/colorCardLight"
+                                        card_view:cardCornerRadius="12dp"
+                                        android:clickable="true"
+                                        android:onClick="click_altB">
+
+                                        <katex.hourglass.in.mathlib.MathView
+                                            android:id="@+id/mTextAltB"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            app:setText="$$alt_b$$"
+                                            app:setTextSize="8sp" />
+                                    </android.support.v7.widget.CardView>
+                                </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <android.support.v7.widget.CardView
+                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                    android:id="@+id/card_view_C"
+                                    android:layout_gravity="center"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginRight="10dp"
+                                    card_view:cardBackgroundColor="@color/colorCardLight"
+                                    card_view:cardCornerRadius="12dp"
+                                    android:clickable="true"
+                                    android:onClick="click_altC">
+
+                                    <katex.hourglass.in.mathlib.MathView
+                                        android:id="@+id/mTextAltC"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:setText="$$alt_c$$"
+                                        app:setTextSize="8sp" />
+                                </android.support.v7.widget.CardView>
+
+                                <android.support.v7.widget.CardView
+                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                    android:id="@+id/card_view_D"
+                                    android:layout_gravity="center"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginLeft="10dp"
+                                    card_view:cardBackgroundColor="@color/colorCardLight"
+                                    card_view:cardCornerRadius="12dp"
+                                    android:clickable="true"
+                                    android:onClick="click_altD">
+
+                                    <katex.hourglass.in.mathlib.MathView
+                                        android:id="@+id/mTextAltD"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:setText="$$alt_b$$"
+                                        app:setTextSize="8sp" />
+                                </android.support.v7.widget.CardView>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </ScrollView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/buttonConfirmar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:onClick="clicaConfirmar"
+                        android:text="Confirmar"
+                        android:textSize="30dp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <!-- Aba do rascunho -->
+            <LinearLayout
+                android:id="@+id/rascunho"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal">
+
+                    <ImageButton
+                        android:id="@+id/new_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:contentDescription="@string/start_new"
+                        android:src="@drawable/new_pic" />
+
+                    <ImageButton
+                        android:id="@+id/draw_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:contentDescription="@string/brush"
+                        android:src="@drawable/brush" />
+
+                    <ImageButton
+                        android:id="@+id/erase_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:contentDescription="@string/erase"
+                        android:src="@drawable/eraser" />
+
+                    <ImageButton
+                        android:id="@+id/save_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:contentDescription="@string/save"
+                        android:src="@drawable/save" />
+
+                </LinearLayout>
+
+                <view
+                    class="com.educa.alan.polibrain.DrawingView"
+                    android:id="@+id/drawing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_weight="1"
+                    android:background="#FFFFFFFF" />
+
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+</TabHost>
+
+
+

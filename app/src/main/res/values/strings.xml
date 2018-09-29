@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PoliBrain</string>
+
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_application_id" translatable="false">230505524252686</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb230505524252686</string>
+
+    <string name="auth_create_failed" translatable="false">Erro de autenticacao na criacao</string>
+    <string name="auth_sign_failed" translatable="false">Erro de autenticacao no login</string>
+
+    <string name="pont">Pontos</string>
+    <string name="friends">Amigos</string>
+    <string name="about">Sobre</string>
+    <string name="exit">Sair</string>
+
+    <!-- Drawer list string array -->
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+    </string-array>
+
+    <string name="title_activity_hall2">HallActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_questao">QuestaoActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <!-- To paint -->
+    <string name="start_new">New</string>
+    <string name="brush">Brush</string>
+    <string name="erase">Erase</string>
+    <string name="save">Save</string>
+    <string name="paint">Paint</string>
+    <string name="sml">Small</string>
+    <string name="med">Medium</string>
+    <string name="lrg">Large</string>
+
+    <!-- Abas -->
+    <string name="questao">Questao</string>
+    <string name="rascunho">Rascunho</string>
+
+</resources>

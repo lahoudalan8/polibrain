@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".HallActivity"
+    tools:showIn="@layout/app_bar_hall">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- MATEMÁTICA -->
+            <LinearLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                tools:context=".HallActivity"
+                android:id="@+id/mat">
+
+                <com.educa.alan.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/mat1"
+                    android:layout_width="196dp"
+                    android:layout_height="196dp"
+                    android:src="@drawable/teste1"
+                    app:civ_border_width="5dp"
+                    app:civ_border_color="#FF000000"
+                    android:clickable="true"
+                    android:onClick="clicaMat1"
+                    tools:ignore="OnClick" />
+
+                <com.educa.alan.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/mat2"
+                    android:layout_width="196dp"
+                    android:layout_height="196dp"
+                    android:src="@drawable/teste1"
+                    app:civ_border_width="5dp"
+                    app:civ_border_color="#FF000000"/>
+
+                <com.educa.alan.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/mat3"
+                    android:layout_width="196dp"
+                    android:layout_height="196dp"
+                    android:src="@drawable/teste1"
+                    app:civ_border_width="5dp"
+                    app:civ_border_color="#FF000000"/>
+
+            </LinearLayout>
+
+            <!-- FÍSICA -->
+            <LinearLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                tools:context=".HallActivity"
+                android:id="@+id/fis"
+                android:visibility="gone">
+
+                <com.educa.alan.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/fis1"
+                    android:layout_width="106dp"
+                    android:layout_height="106dp"
+                    android:src="@drawable/teste1"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="#FF000000"/>
+
+                <com.educa.alan.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/fis2"
+                    android:layout_width="106dp"
+                    android:layout_height="106dp"
+                    android:src="@drawable/teste1"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="#FF000000"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</android.support.constraint.ConstraintLayout>
