@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.Blob;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -69,6 +70,11 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
     // Dados de layout
     private CardView mCardAltA, mCardAltB, mCardAltC, mCardAltD;
     private MathView mTextEnunciado, mTextAltA, mTextAltB, mTextAltC, mTextAltD;
+    private Button mButtonConfirmar;
+
+    // Dados da interação com o usuario
+    private int alt_pressionada = 0;
+    private int alt_correta = 0;
 
     // Dados do banco de questões
     private int camada;
@@ -83,6 +89,8 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //set content view AFTER ABOVE sequence (to avoid crash)
         this.setContentView(R.layout.activity_questao);
+
+        getSupportActionBar().hide();
 
         Intent intent = getIntent();
         camada = intent.getExtras().getInt("camada");
@@ -101,6 +109,8 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         mCardAltB = (CardView) findViewById(R.id.card_view_B);
         mCardAltC = (CardView) findViewById(R.id.card_view_C);
         mCardAltD = (CardView) findViewById(R.id.card_view_D);
+
+        mButtonConfirmar = (Button) findViewById(R.id.mButtonConfirmar);
 
         FirebaseFirestore db;
         QuestaoClass questao = new QuestaoClass();
@@ -132,7 +142,21 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
 
                         double mediaFacilidade = util_questao.calculaMedia(questoes_doc);
                         double stdFacilidade = util_questao.calculaDesvio(questoes_doc, mediaFacilidade);
+                        int id = util_questao.calculaMelhorId(questoes_doc, mediaFacilidade, stdFacilidade);
+                        DocumentSnapshot questao_ideal = questoes_doc.get(id);
+                        String enunciado = questao_ideal.getString("enunciado");
+                        String alt_a = questao_ideal.getString("alt_a");
+                        String alt_b = questao_ideal.getString("alt_b");
+                        String alt_c = questao_ideal.getString("alt_c");
+                        String alt_d = questao_ideal.getString("alt_d");
 
+                        alt_correta = (int) (long) questao_ideal.getLong("alt_correta");
+
+                        mTextEnunciado.setDisplayText(enunciado);
+                        mTextAltA.setDisplayText(alt_a);
+                        mTextAltB.setDisplayText(alt_b);
+                        mTextAltC.setDisplayText(alt_c);
+                        mTextAltD.setDisplayText(alt_d);
 
                     }
                 });
@@ -180,6 +204,10 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                 mCardAltB.setBackgroundResource(R.color.colorCardLight);
                 mCardAltC.setBackgroundResource(R.color.colorCardLight);
                 mCardAltD.setBackgroundResource(R.color.colorCardLight);
+
+                alt_pressionada = 1;
+                mButtonConfirmar.setVisibility(View.VISIBLE);
+
                 return true;
             }
         });
@@ -191,6 +219,10 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                 mCardAltB.setBackgroundResource(R.color.colorCard);
                 mCardAltC.setBackgroundResource(R.color.colorCardLight);
                 mCardAltD.setBackgroundResource(R.color.colorCardLight);
+
+                alt_pressionada = 2;
+                mButtonConfirmar.setVisibility(View.VISIBLE);
+
                 return true;
             }
         });
@@ -202,6 +234,10 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                 mCardAltB.setBackgroundResource(R.color.colorCardLight);
                 mCardAltC.setBackgroundResource(R.color.colorCard);
                 mCardAltD.setBackgroundResource(R.color.colorCardLight);
+
+                alt_pressionada = 3;
+                mButtonConfirmar.setVisibility(View.VISIBLE);
+
                 return true;
             }
         });
@@ -213,10 +249,68 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                 mCardAltB.setBackgroundResource(R.color.colorCardLight);
                 mCardAltC.setBackgroundResource(R.color.colorCardLight);
                 mCardAltD.setBackgroundResource(R.color.colorCard);
+
+                alt_pressionada = 4;
+                mButtonConfirmar.setVisibility(View.VISIBLE);
+
                 return true;
             }
         });
 
+        mButtonConfirmar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (alt_pressionada == alt_correta){
+                    // Escrever o acerto no Usr_Questao
+                    // Escrever o acerto no Usuario
+                    // Escrever a tentativa na Questao
+                    // Escrever o acerto na Questao
+                    // Escrever a facilidade na Questao
+
+                    if (alt_pressionada == 1){
+                        mCardAltA.setCardBackgroundColor(Color.GREEN);
+                    }
+                    else if (alt_pressionada == 2){
+                        mCardAltB.setCardBackgroundColor(Color.GREEN);
+                    }
+                    else if (alt_pressionada == 3){
+                        mCardAltC.setCardBackgroundColor(Color.GREEN);
+                    }
+                    else if (alt_pressionada == 4){
+                        mCardAltD.setCardBackgroundColor(Color.GREEN);
+                    }
+                }
+                else{
+                    // Escrever o erro no Usr_Questao
+                    // Escrever o erro no Usuario
+                    // Escrever a tentativa na Questao
+                    // EScrever a facilidade na Questao
+
+                    if (alt_pressionada == 1){
+                        mCardAltA.setCardBackgroundColor(Color.RED);
+                    }
+                    else if (alt_pressionada == 2){
+                        mCardAltB.setCardBackgroundColor(Color.RED);
+                    }
+                    else if (alt_pressionada == 3){
+                        mCardAltC.setCardBackgroundColor(Color.RED);
+                    }
+                    else if (alt_pressionada == 4){
+                        mCardAltD.setCardBackgroundColor(Color.RED);
+                    }
+                }
+
+                goToNextQuestion();
+
+                return true;
+            }
+        });
+
+    }
+
+    public void goToNextQuestion (){
+        Intent intent = new Intent (this, QuestaoActivity.class);
+        startActivity(intent);
     }
 
     @Override

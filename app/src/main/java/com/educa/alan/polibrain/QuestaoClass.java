@@ -73,6 +73,11 @@ public class QuestaoClass {
         return std;
     }
 
+    public int calculaMelhorId(ArrayList<DocumentSnapshot> questoes, double media_facilidade, double std_facilidade){
+
+        return (int) (300 * Math.random());
+    }
+
 
 //    public JSONObject getQuestaoIdeal(JSONArray questoes, float dificuldade_ideal){
 //        // Dadas as questoes aleatorias (Json), escolher a questao ideal para o usuario dada a dificuldade ideal
