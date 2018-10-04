@@ -37,7 +37,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.Blob;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -75,9 +79,13 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
     // Dados da interação com o usuario
     private int alt_pressionada = 0;
     private int alt_correta = 0;
+    private String id_ideal;
 
     // Dados do banco de questões
-    private int camada;
+    private int camada, nivel;
+
+    // Dados do usuario
+    private String email_usuario;
 
 
     @Override
@@ -94,6 +102,7 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
 
         Intent intent = getIntent();
         camada = intent.getExtras().getInt("camada");
+        nivel = intent.getExtras().getInt("nivel");
 
         // Dados de Layout
         LinearLayout layout = (LinearLayout) findViewById(R.id.questao);
@@ -111,6 +120,9 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         mCardAltD = (CardView) findViewById(R.id.card_view_D);
 
         mButtonConfirmar = (Button) findViewById(R.id.mButtonConfirmar);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        email_usuario = user.getEmail();
 
         FirebaseFirestore db;
         QuestaoClass questao = new QuestaoClass();
@@ -144,6 +156,7 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                         double stdFacilidade = util_questao.calculaDesvio(questoes_doc, mediaFacilidade);
                         int id = util_questao.calculaMelhorId(questoes_doc, mediaFacilidade, stdFacilidade);
                         DocumentSnapshot questao_ideal = questoes_doc.get(id);
+                        id_ideal = questao_ideal.getId();
                         String enunciado = questao_ideal.getString("enunciado");
                         String alt_a = questao_ideal.getString("alt_a");
                         String alt_b = questao_ideal.getString("alt_b");
@@ -261,6 +274,8 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (alt_pressionada == alt_correta){
+
+                    escreve_usuario_pont_questoes(1, 5);
                     // Escrever o acerto no Usr_Questao
                     // Escrever o acerto no Usuario
                     // Escrever a tentativa na Questao
@@ -281,6 +296,9 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 }
                 else{
+
+                    escreve_usuario_pont_questoes(0, 5);
+
                     // Escrever o erro no Usr_Questao
                     // Escrever o erro no Usuario
                     // Escrever a tentativa na Questao
@@ -307,6 +325,36 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         });
 
     }
+
+
+    public void escreve_usuario_pont_questoes(int acerto, int tempo){
+
+        FirebaseFirestore db;
+        db = FirebaseFirestore.getInstance();
+        DocumentReference docRef;
+
+        Map<String, Object> questao = new HashMap<>();
+        questao.put("acerto", acerto);
+        questao.put("tempo", tempo);
+
+        db.collection("usuarios_pont_questoes").document(email_usuario).collection(String.valueOf(camada)).document(String.valueOf(nivel)).collection(id_ideal).document(id_ideal)
+                .set(questao);
+    }
+
+
+    public void escreve_usuario_pont_nivel(int pontuacao){
+
+        FirebaseFirestore db;
+        db = FirebaseFirestore.getInstance();
+        DocumentReference docRef;
+
+        Map<String, Object> nivel_usuario = new HashMap<>();
+        nivel_usuario.put("pontuacao", pontuacao);
+
+        db.collection("usuarios_pont_niveis").document(email_usuario).collection(String.valueOf(camada)).document(String.valueOf(nivel))
+                .set(nivel_usuario);
+    }
+
 
     public void goToNextQuestion (){
         Intent intent = new Intent (this, QuestaoActivity.class);
