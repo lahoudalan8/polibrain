@@ -27,9 +27,9 @@
         <activity
             android:name=".QuestaoActivity"
             android:label="@string/app_name"
-            android:noHistory="true">
-        </activity>
-
+            android:noHistory="true" />
+        <activity android:name=".NiveisActivity" />
+        <activity android:name=".FeedbackActivity"></activity>
     </application>
 
 </manifest>

@@ -48,4 +48,17 @@
     <string name="questao">Questao</string>
     <string name="rascunho">Rascunho</string>
 
+    <!-- Niveis -->
+    <string name="c1n1">Soma</string>
+    <string name="c1n2">Subtração</string>
+    <string name="c1n3">Soma</string>
+    <string name="c1n4">Subtração</string>
+    <string name="c1n5">Soma</string>
+    <string name="c1n6">Subtração</string>
+    <string name="c1n7">Soma</string>
+    <string name="c1n8">Subtração</string>
+    <string name="c1n9">Soma</string>
+    <string name="c1n10">Subtração</string>
+
+
 </resources>

@@ -13,6 +13,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -72,6 +74,8 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
     private float smallBrush, mediumBrush, largeBrush;
 
     // Dados de layout
+    private TextView mTextQuestaoX;
+    private Chronometer mChronometer;
     private CardView mCardAltA, mCardAltB, mCardAltC, mCardAltD;
     private MathView mTextEnunciado, mTextAltA, mTextAltB, mTextAltC, mTextAltD;
     private Button mButtonConfirmar;
@@ -79,14 +83,20 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
     // Dados da interação com o usuario
     private int alt_pressionada = 0;
     private int alt_correta = 0;
+    private int facilidade_questao;
     private String id_ideal;
 
     // Dados do banco de questões
     private int camada, nivel;
+    private String [] nome_camada = {"mat_bas"};
+    private String [] nome_nivel = {"soma","subtracao"};
 
     // Dados do usuario
     private String email_usuario;
 
+    // Dado dinamicos
+    private int questao_atual;
+    private float pontuacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,10 +113,15 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = getIntent();
         camada = intent.getExtras().getInt("camada");
         nivel = intent.getExtras().getInt("nivel");
+        questao_atual = intent.getExtras().getInt("questao");
+        pontuacao = intent.getExtras().getFloat("pontuacao");
 
         // Dados de Layout
         LinearLayout layout = (LinearLayout) findViewById(R.id.questao);
         //layout.setBackgroundResource(R.drawable.teste1);
+
+        mTextQuestaoX = (TextView) findViewById(R.id.id_questao_x);
+        mChronometer = (Chronometer) findViewById(R.id.id_chronometer);
 
         mTextEnunciado = (MathView) findViewById(R.id.mTextEnunciado);
         mTextAltA = (MathView) findViewById(R.id.mTextAltA);
@@ -124,13 +139,16 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         email_usuario = user.getEmail();
 
+
+        mTextQuestaoX.setText("Questão " + String.valueOf(questao_atual));
+
         FirebaseFirestore db;
         QuestaoClass questao = new QuestaoClass();
         db = FirebaseFirestore.getInstance();
         DocumentReference docRef;
 
         // Create a reference to the cities collection
-        CollectionReference citiesRef = db.collection("questoes_mat").document("mat_bas").collection("soma");
+        CollectionReference citiesRef = db.collection("questoes_mat").document(nome_camada[camada-1]).collection(nome_nivel[nivel-1]);
 
         // Create a query against the collection.
         Query query = citiesRef.orderBy("facilidade");
@@ -163,7 +181,11 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                         String alt_c = questao_ideal.getString("alt_c");
                         String alt_d = questao_ideal.getString("alt_d");
 
+                        facilidade_questao = (int) (long) questao_ideal.getLong("facilidade");
                         alt_correta = (int) (long) questao_ideal.getLong("alt_correta");
+
+                        mChronometer.setBase(SystemClock.elapsedRealtime());
+                        mChronometer.start();
 
                         mTextEnunciado.setDisplayText(enunciado);
                         mTextAltA.setDisplayText(alt_a);
@@ -273,9 +295,13 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         mButtonConfirmar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                int tempo = (int) (SystemClock.elapsedRealtime() - mChronometer.getBase())/1000;
+
                 if (alt_pressionada == alt_correta){
 
-                    escreve_usuario_pont_questoes(1, 5);
+                    pontuacao = calculaPontuacao(pontuacao, 1, tempo, facilidade_questao);
+                    escreve_usuario_pont_questoes(1, tempo);
                     // Escrever o acerto no Usr_Questao
                     // Escrever o acerto no Usuario
                     // Escrever a tentativa na Questao
@@ -297,7 +323,8 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 else{
 
-                    escreve_usuario_pont_questoes(0, 5);
+                    pontuacao = calculaPontuacao(pontuacao, 0, tempo, facilidade_questao);
+                    escreve_usuario_pont_questoes(0, tempo);
 
                     // Escrever o erro no Usr_Questao
                     // Escrever o erro no Usuario
@@ -318,7 +345,13 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 }
 
-                goToNextQuestion();
+                if (questao_atual<=9) {
+                    goToNextQuestion();
+                }
+                else{
+                    escreve_usuario_pont_nivel((int)pontuacao);
+                    goToFeedback();
+                }
 
                 return true;
             }
@@ -355,9 +388,35 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                 .set(nivel_usuario);
     }
 
+    public float calculaPontuacao(float pont, int acerto, int tempo, int facilidade_questao){
+
+        if (acerto == 0){
+            return 0;
+        }
+
+        pont = (float) (pont + Math.log10(10*nivel)*Math.log10(10*camada)*(120 - facilidade_questao) + (180 - tempo));
+
+        if (pont <=10){
+            return 10;
+        }
+
+        return pont;
+    }
 
     public void goToNextQuestion (){
         Intent intent = new Intent (this, QuestaoActivity.class);
+        intent.putExtra("camada", camada);
+        intent.putExtra("nivel", nivel);
+        intent.putExtra("questao", questao_atual + 1);
+        intent.putExtra("pontuacao", pontuacao);
+        startActivity(intent);
+    }
+
+    public void goToFeedback (){
+        Intent intent = new Intent (this, FeedbackActivity.class);
+        intent.putExtra("camada", camada);
+        intent.putExtra("nivel", nivel);
+        intent.putExtra("pontuacao", pontuacao);
         startActivity(intent);
     }
 

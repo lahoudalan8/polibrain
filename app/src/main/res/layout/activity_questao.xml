@@ -50,7 +50,7 @@
                         android:layout_weight="1"
                         style="@style/Base.TextAppearance.AppCompat.Title"
                         android:gravity="center"
-                        android:text="Questao X"
+                        android:text="Questão X"
                         android:textSize="30sp" />
 
                     <Button

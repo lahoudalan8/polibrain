@@ -169,7 +169,7 @@ public class HallActivity extends AppCompatActivity
 
 
     public void clicaMat1(View view) {
-        Intent intent = new Intent(this, QuestaoActivity.class);
+        Intent intent = new Intent(this, NiveisActivity.class);
         intent.putExtra("camada", 1);
         startActivity(intent);
     }
