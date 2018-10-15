@@ -48,7 +48,10 @@
                     android:layout_height="196dp"
                     android:src="@drawable/teste1"
                     app:civ_border_width="5dp"
-                    app:civ_border_color="#FF000000"/>
+                    app:civ_border_color="#FF000000"
+                    android:clickable="true"
+                    android:onClick="clicaMat2"
+                    tools:ignore="OnClick"/>
 
                 <com.educa.alan.circleimageview.CircleImageView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -57,7 +60,10 @@
                     android:layout_height="196dp"
                     android:src="@drawable/teste1"
                     app:civ_border_width="5dp"
-                    app:civ_border_color="#FF000000"/>
+                    app:civ_border_color="#FF000000"
+                    android:clickable="true"
+                    android:onClick="clicaMat3"
+                    tools:ignore="OnClick"/>
 
             </LinearLayout>
 

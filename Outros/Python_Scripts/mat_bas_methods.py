@@ -67,6 +67,11 @@ def divisores(num):
             divisores.append(-i)
     return divisores        
 
+def mdc(a, b):
+    diva = divisores(a)
+    divb = divisores(b)
+    return max(list(set(diva).intersection(divb)))
+
 def soma(a, b, n):
     '''
     Funcao recebe duas strings numericas e retorna uma string

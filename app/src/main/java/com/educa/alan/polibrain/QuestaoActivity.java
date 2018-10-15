@@ -88,8 +88,11 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
 
     // Dados do banco de questões
     private int camada, nivel;
-    private String [] nome_camada = {"mat_bas"};
-    private String [] nome_nivel = {"soma","subtracao"};
+    private String [] nome_camada = {"mat_bas","fracoes"};
+    private String [][] nome_nivel = {
+            {"soma","subtracao","expressoes1","expressoes2","multiplicacao","divisao"},
+            {"mdc", "mmc", "irredutiveis"}
+    };
 
     // Dados do usuario
     private String email_usuario;
@@ -148,7 +151,7 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         DocumentReference docRef;
 
         // Create a reference to the cities collection
-        CollectionReference citiesRef = db.collection("questoes_mat").document(nome_camada[camada-1]).collection(nome_nivel[nivel-1]);
+        CollectionReference citiesRef = db.collection("questoes_mat").document(nome_camada[camada-1]).collection(nome_nivel[camada-1][nivel-1]);
 
         // Create a query against the collection.
         Query query = citiesRef.orderBy("facilidade");

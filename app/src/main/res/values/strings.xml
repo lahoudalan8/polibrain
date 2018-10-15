@@ -51,14 +51,15 @@
     <!-- Niveis -->
     <string name="c1n1">Soma</string>
     <string name="c1n2">Subtração</string>
-    <string name="c1n3">Soma</string>
-    <string name="c1n4">Subtração</string>
-    <string name="c1n5">Soma</string>
-    <string name="c1n6">Subtração</string>
-    <string name="c1n7">Soma</string>
-    <string name="c1n8">Subtração</string>
-    <string name="c1n9">Soma</string>
-    <string name="c1n10">Subtração</string>
+    <string name="c1n3">Expressões 1</string>
+    <string name="c1n4">Expressões 2</string>
+    <string name="c1n5">Multiplicação</string>
+    <string name="c1n6">Divisão</string>
+
+    <string name="c2n1">MDC</string>
+    <string name="c2n2">MMC</string>
+    <string name="c3n3">Frações Irredutíveis</string>
+
 
 
 </resources>
