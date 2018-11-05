@@ -83,8 +83,9 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
     // Dados da interação com o usuario
     private int alt_pressionada = 0;
     private int alt_correta = 0;
-    private int facilidade_questao;
+    private int grupo_questao;
     private String id_ideal;
+    private int pressed = 0;
 
     // Dados do banco de questões
     private int camada, nivel;
@@ -100,6 +101,8 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
     // Dado dinamicos
     private int questao_atual;
     private float pontuacao;
+    private int acertos;
+    private int tempo_total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +121,8 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         nivel = intent.getExtras().getInt("nivel");
         questao_atual = intent.getExtras().getInt("questao");
         pontuacao = intent.getExtras().getFloat("pontuacao");
+        acertos = intent.getExtras().getInt("acertos");
+        tempo_total = intent.getExtras().getInt("tempo");
 
         // Dados de Layout
         LinearLayout layout = (LinearLayout) findViewById(R.id.questao);
@@ -142,6 +147,7 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         email_usuario = user.getEmail();
 
+        pressed = 0;
 
         mTextQuestaoX.setText("Questão " + String.valueOf(questao_atual));
 
@@ -154,7 +160,7 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         CollectionReference citiesRef = db.collection("questoes_mat").document(nome_camada[camada-1]).collection(nome_nivel[camada-1][nivel-1]);
 
         // Create a query against the collection.
-        Query query = citiesRef.orderBy("facilidade");
+        Query query = citiesRef.orderBy("grupo");
 
         final ArrayList<DocumentSnapshot> questoes_doc = new ArrayList<DocumentSnapshot>() ;
 
@@ -173,9 +179,9 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
 
                         QuestaoClass util_questao = new QuestaoClass();
 
-                        double mediaFacilidade = util_questao.calculaMedia(questoes_doc);
-                        double stdFacilidade = util_questao.calculaDesvio(questoes_doc, mediaFacilidade);
-                        int id = util_questao.calculaMelhorId(questoes_doc, mediaFacilidade, stdFacilidade);
+                        //double mediaFacilidade = util_questao.calculaMedia(questoes_doc);
+                        //double stdFacilidade = util_questao.calculaDesvio(questoes_doc, mediaFacilidade);
+                        int id = util_questao.calculaMelhorId(questoes_doc, 0, 0);
                         DocumentSnapshot questao_ideal = questoes_doc.get(id);
                         id_ideal = questao_ideal.getId();
                         String enunciado = questao_ideal.getString("enunciado");
@@ -184,7 +190,7 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                         String alt_c = questao_ideal.getString("alt_c");
                         String alt_d = questao_ideal.getString("alt_d");
 
-                        facilidade_questao = (int) (long) questao_ideal.getLong("facilidade");
+                        grupo_questao = (int) (long) questao_ideal.getLong("grupo");
                         alt_correta = (int) (long) questao_ideal.getLong("alt_correta");
 
                         mChronometer.setBase(SystemClock.elapsedRealtime());
@@ -298,13 +304,17 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         mButtonConfirmar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-
+                pressed = pressed + 1;
                 int tempo = (int) (SystemClock.elapsedRealtime() - mChronometer.getBase())/1000;
 
                 if (alt_pressionada == alt_correta){
 
-                    pontuacao = calculaPontuacao(pontuacao, 1, tempo, facilidade_questao);
-                    escreve_usuario_pont_questoes(1, tempo);
+                    if (pressed == 1) {
+                        pontuacao = calculaPontuacao(pontuacao, 1, tempo, grupo_questao);
+                        acertos = acertos + 1;
+                        tempo_total = tempo_total + tempo;
+                        escreve_usuario_pont_questoes(1, tempo);
+                    }
                     // Escrever o acerto no Usr_Questao
                     // Escrever o acerto no Usuario
                     // Escrever a tentativa na Questao
@@ -326,8 +336,11 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 else{
 
-                    pontuacao = calculaPontuacao(pontuacao, 0, tempo, facilidade_questao);
-                    escreve_usuario_pont_questoes(0, tempo);
+                    if (pressed == 1) {
+                        pontuacao = calculaPontuacao(pontuacao, 0, tempo, grupo_questao);
+                        tempo_total = tempo_total + tempo;
+                        escreve_usuario_pont_questoes(0, tempo);
+                    }
 
                     // Escrever o erro no Usr_Questao
                     // Escrever o erro no Usuario
@@ -349,17 +362,40 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                 }
 
                 if (questao_atual<=9) {
+                    finish();
                     goToNextQuestion();
                 }
+                else if(questao_atual == 10){
+                    if (pressed == 1) {
+                        escreve_usuario_pont_nivel((int) pontuacao);
+                        finish();
+                        goToFeedback();
+                    }
+                }
                 else{
-                    escreve_usuario_pont_nivel((int)pontuacao);
-                    goToFeedback();
+                    finish();
+                    goToNiveis();
                 }
 
                 return true;
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Tem certeza que deseja sair? A sua pontuação neste tópico não será computada.")
+                .setCancelable(false)
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        QuestaoActivity.this.finish();
+                        goToNiveis();
+                    }
+                })
+                .setNegativeButton("Não", null)
+                .show();
     }
 
 
@@ -370,11 +406,15 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         DocumentReference docRef;
 
         Map<String, Object> questao = new HashMap<>();
+        questao.put("email_usr", email_usuario);
+        questao.put("camada", camada);
+        questao.put("nivel", nivel);
+        questao.put("id_questao", id_ideal);
         questao.put("acerto", acerto);
         questao.put("tempo", tempo);
 
-        db.collection("usuarios_pont_questoes").document(email_usuario).collection(String.valueOf(camada)).document(String.valueOf(nivel)).collection(id_ideal).document(id_ideal)
-                .set(questao);
+        db.collection("usuarios_pont_questoes")
+                .add(questao);
     }
 
 
@@ -385,10 +425,13 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         DocumentReference docRef;
 
         Map<String, Object> nivel_usuario = new HashMap<>();
+        nivel_usuario.put("email_usr", email_usuario);
+        nivel_usuario.put("camada", camada);
+        nivel_usuario.put("nivel", nivel);
         nivel_usuario.put("pontuacao", pontuacao);
 
-        db.collection("usuarios_pont_niveis").document(email_usuario).collection(String.valueOf(camada)).document(String.valueOf(nivel))
-                .set(nivel_usuario);
+        db.collection("usuarios_pont_niveis")
+                .add(nivel_usuario);
     }
 
     public float calculaPontuacao(float pont, int acerto, int tempo, int facilidade_questao){
@@ -412,6 +455,8 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         intent.putExtra("nivel", nivel);
         intent.putExtra("questao", questao_atual + 1);
         intent.putExtra("pontuacao", pontuacao);
+        intent.putExtra("acertos", acertos);
+        intent.putExtra("tempo", tempo_total);
         startActivity(intent);
     }
 
@@ -420,8 +465,17 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         intent.putExtra("camada", camada);
         intent.putExtra("nivel", nivel);
         intent.putExtra("pontuacao", pontuacao);
+        intent.putExtra("acertos", acertos);
+        intent.putExtra("tempo", tempo_total);
         startActivity(intent);
     }
+
+    public void goToNiveis (){
+        Intent intent = new Intent (this, NiveisActivity.class);
+        intent.putExtra("camada", camada);
+        startActivity(intent);
+    }
+
 
     @Override
     public void onClick(View view) {

@@ -1,10 +1,13 @@
 package com.educa.alan.polibrain;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -115,7 +119,18 @@ public class HallActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            new AlertDialog.Builder(this)
+                    .setMessage("Tem certeza que deseja sair do PoliBrain?")
+                    .setCancelable(false)
+                    .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            HallActivity.this.finish();
+                            exitApp();
+                        }
+                    })
+                    .setNegativeButton("Não", null)
+                    .show();
         }
     }
 
@@ -128,17 +143,22 @@ public class HallActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
-        case R.id.add:
-            //add the function to perform here
+        case R.id.friends:
+            Intent intent = new Intent(this, AmigosActivity.class);
+            startActivity(intent);
             return(true);
-        case R.id.reset:
-            //add the function to perform here
+        case R.id.ponts:
+            Toast toast = Toast.makeText(this, "Suas pontuações e seus itens em progresso", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+            toast.show();
             return(true);
         case R.id.about:
-            //add the function to perform here
+            Toast toast2 = Toast.makeText(this, "PoliBrain surge para inovar a educação no Brasil. Aproveite !", Toast.LENGTH_LONG);
+            toast2.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+            toast2.show();
             return(true);
         case R.id.exit:
-            //add the function to perform here
+            exitApp();
             return(true);
     }
         return(super.onOptionsItemSelected(item));
@@ -185,4 +205,11 @@ public class HallActivity extends AppCompatActivity
         intent.putExtra("camada", 3);
         startActivity(intent);
     }
+
+    public void exitApp (){
+        HallActivity.this.finish();
+        this.finishAffinity();
+        System.exit(0);
+    }
+
 }

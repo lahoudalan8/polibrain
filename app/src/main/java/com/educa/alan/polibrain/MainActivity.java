@@ -31,10 +31,11 @@ public class MainActivity extends AppCompatActivity {
                 AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
-                .setLogo(R.drawable.ic_launcher_foreground)      // Set logo drawable
+                //.setLogo(R.drawable.ic_launcher_foreground)      // Set logo drawable
                 //.setTheme(R.style.MySuperAppTheme)      // Set theme
                 .setTosUrl("https://superapp.example.com/terms-of-service.html")
                 .setPrivacyPolicyUrl("https://superapp.example.com/privacy-policy.html")
+                .setIsSmartLockEnabled(false)
                 .build(),
                 RC_SIGN_IN);
 

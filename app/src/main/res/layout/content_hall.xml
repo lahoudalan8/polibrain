@@ -13,90 +13,84 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <!-- MATEMÁTICA -->
-            <LinearLayout
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/mat"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                tools:context=".HallActivity"
-                android:id="@+id/mat">
+                tools:context=".HallActivity">
 
-                <com.educa.alan.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.educa.alan.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/mat1"
                     android:layout_width="196dp"
                     android:layout_height="196dp"
-                    android:src="@drawable/teste1"
-                    app:civ_border_width="5dp"
-                    app:civ_border_color="#FF000000"
                     android:clickable="true"
+                    android:cropToPadding="false"
                     android:onClick="clicaMat1"
+                    android:src="@drawable/matbas"
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="5dp"
                     tools:ignore="OnClick" />
 
-                <com.educa.alan.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.educa.alan.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/mat2"
                     android:layout_width="196dp"
                     android:layout_height="196dp"
-                    android:src="@drawable/teste1"
-                    app:civ_border_width="5dp"
-                    app:civ_border_color="#FF000000"
                     android:clickable="true"
                     android:onClick="clicaMat2"
-                    tools:ignore="OnClick"/>
+                    android:src="@drawable/fracoes"
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="5dp"
+                    tools:ignore="OnClick" />
 
-                <com.educa.alan.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.educa.alan.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/mat3"
                     android:layout_width="196dp"
                     android:layout_height="196dp"
-                    android:src="@drawable/teste1"
-                    app:civ_border_width="5dp"
-                    app:civ_border_color="#FF000000"
                     android:clickable="true"
                     android:onClick="clicaMat3"
-                    tools:ignore="OnClick"/>
+                    android:src="@drawable/teste1"
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="5dp"
+                    tools:ignore="OnClick" />
 
             </LinearLayout>
 
             <!-- FÍSICA -->
-            <LinearLayout
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/fis"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                tools:context=".HallActivity"
-                android:id="@+id/fis"
-                android:visibility="gone">
+                android:visibility="gone"
+                tools:context=".HallActivity">
 
-                <com.educa.alan.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.educa.alan.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/fis1"
                     android:layout_width="106dp"
                     android:layout_height="106dp"
                     android:src="@drawable/teste1"
-                    app:civ_border_width="2dp"
-                    app:civ_border_color="#FF000000"/>
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="2dp" />
 
-                <com.educa.alan.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.educa.alan.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/fis2"
                     android:layout_width="106dp"
                     android:layout_height="106dp"
                     android:src="@drawable/teste1"
-                    app:civ_border_width="2dp"
-                    app:civ_border_color="#FF000000"/>
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="2dp" />
 
             </LinearLayout>
 

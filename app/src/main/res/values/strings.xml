@@ -9,8 +9,8 @@
     <string name="auth_create_failed" translatable="false">Erro de autenticacao na criacao</string>
     <string name="auth_sign_failed" translatable="false">Erro de autenticacao no login</string>
 
-    <string name="pont">Pontos</string>
-    <string name="friends">Amigos</string>
+    <string name="friends">Pontos</string>
+    <string name="ponts">Amigos</string>
     <string name="about">Sobre</string>
     <string name="exit">Sair</string>
 
@@ -59,7 +59,6 @@
     <string name="c2n1">MDC</string>
     <string name="c2n2">MMC</string>
     <string name="c3n3">Frações Irredutíveis</string>
-
 
 
 </resources>

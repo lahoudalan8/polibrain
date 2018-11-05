@@ -1,6 +1,8 @@
 package com.educa.alan.polibrain;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -141,5 +143,16 @@ public class NiveisActivity extends AppCompatActivity {
     }
     public void clica_n6_video(View view) {
         Toast.makeText(this, "Não há video no momento", Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        goToHall();
+    }
+
+    public void goToHall (){
+        Intent intent = new Intent (this, HallActivity.class);
+        startActivity(intent);
     }
 }

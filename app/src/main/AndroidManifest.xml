@@ -29,7 +29,8 @@
             android:label="@string/app_name"
             android:noHistory="true" />
         <activity android:name=".NiveisActivity" />
-        <activity android:name=".FeedbackActivity"></activity>
+        <activity android:name=".FeedbackActivity" />
+        <activity android:name=".AmigosActivity"></activity>
     </application>
 
 </manifest>
