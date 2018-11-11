@@ -13,6 +13,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -92,7 +93,8 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
     private String [] nome_camada = {"mat_bas","fracoes"};
     private String [][] nome_nivel = {
             {"soma","subtracao","expressoes1","expressoes2","multiplicacao","divisao"},
-            {"mdc", "mmc", "irredutiveis"}
+            {"mdc", "mmc", "irredutiveis", "somafrac", "multfrac", "divfrac"},
+            {"1grau"}
     };
 
     // Dados do usuario
@@ -304,78 +306,88 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         mButtonConfirmar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                pressed = pressed + 1;
-                int tempo = (int) (SystemClock.elapsedRealtime() - mChronometer.getBase())/1000;
 
-                if (alt_pressionada == alt_correta){
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        pressed = pressed + 1;
+                        int tempo = (int) (SystemClock.elapsedRealtime() - mChronometer.getBase())/1000;
+                        if (alt_pressionada == alt_correta){
 
-                    if (pressed == 1) {
-                        pontuacao = calculaPontuacao(pontuacao, 1, tempo, grupo_questao);
-                        acertos = acertos + 1;
-                        tempo_total = tempo_total + tempo;
-                        escreve_usuario_pont_questoes(1, tempo);
-                    }
-                    // Escrever o acerto no Usr_Questao
-                    // Escrever o acerto no Usuario
-                    // Escrever a tentativa na Questao
-                    // Escrever o acerto na Questao
-                    // Escrever a facilidade na Questao
+                            mButtonConfirmar.setBackgroundColor(Color.GREEN);
 
-                    if (alt_pressionada == 1){
-                        mCardAltA.setCardBackgroundColor(Color.GREEN);
-                    }
-                    else if (alt_pressionada == 2){
-                        mCardAltB.setCardBackgroundColor(Color.GREEN);
-                    }
-                    else if (alt_pressionada == 3){
-                        mCardAltC.setCardBackgroundColor(Color.GREEN);
-                    }
-                    else if (alt_pressionada == 4){
-                        mCardAltD.setCardBackgroundColor(Color.GREEN);
-                    }
-                }
-                else{
+                            if (pressed == 1) {
+                                pontuacao = calculaPontuacao(pontuacao, 1, tempo, grupo_questao);
+                                acertos = acertos + 1;
+                                tempo_total = tempo_total + tempo;
+                                escreve_usuario_pont_questoes(1, tempo);
+                            }
+                            // Escrever o acerto no Usr_Questao
+                            // Escrever o acerto no Usuario
+                            // Escrever a tentativa na Questao
+                            // Escrever o acerto na Questao
+                            // Escrever a facilidade na Questao
 
-                    if (pressed == 1) {
-                        pontuacao = calculaPontuacao(pontuacao, 0, tempo, grupo_questao);
-                        tempo_total = tempo_total + tempo;
-                        escreve_usuario_pont_questoes(0, tempo);
-                    }
+                            if (alt_pressionada == 1){
+                                mCardAltA.setCardBackgroundColor(Color.GREEN);
+                            }
+                            else if (alt_pressionada == 2){
+                                mCardAltB.setCardBackgroundColor(Color.GREEN);
+                            }
+                            else if (alt_pressionada == 3){
+                                mCardAltC.setCardBackgroundColor(Color.GREEN);
+                            }
+                            else if (alt_pressionada == 4){
+                                mCardAltD.setCardBackgroundColor(Color.GREEN);
+                            }
+                        }
+                        else{
 
-                    // Escrever o erro no Usr_Questao
-                    // Escrever o erro no Usuario
-                    // Escrever a tentativa na Questao
-                    // EScrever a facilidade na Questao
+                            mButtonConfirmar.setBackgroundColor(Color.RED);
 
-                    if (alt_pressionada == 1){
-                        mCardAltA.setCardBackgroundColor(Color.RED);
-                    }
-                    else if (alt_pressionada == 2){
-                        mCardAltB.setCardBackgroundColor(Color.RED);
-                    }
-                    else if (alt_pressionada == 3){
-                        mCardAltC.setCardBackgroundColor(Color.RED);
-                    }
-                    else if (alt_pressionada == 4){
-                        mCardAltD.setCardBackgroundColor(Color.RED);
-                    }
-                }
+                            if (pressed == 1) {
+                                pontuacao = calculaPontuacao(pontuacao, 0, tempo, grupo_questao);
+                                tempo_total = tempo_total + tempo;
+                                escreve_usuario_pont_questoes(0, tempo);
+                            }
 
-                if (questao_atual<=9) {
-                    finish();
-                    goToNextQuestion();
-                }
-                else if(questao_atual == 10){
-                    if (pressed == 1) {
-                        escreve_usuario_pont_nivel((int) pontuacao);
-                        finish();
-                        goToFeedback();
+                            // Escrever o erro no Usr_Questao
+                            // Escrever o erro no Usuario
+                            // Escrever a tentativa na Questao
+                            // EScrever a facilidade na Questao
+
+                            if (alt_pressionada == 1){
+                                mCardAltA.setCardBackgroundColor(Color.RED);
+                            }
+                            else if (alt_pressionada == 2){
+                                mCardAltB.setCardBackgroundColor(Color.RED);
+                            }
+                            else if (alt_pressionada == 3){
+                                mCardAltC.setCardBackgroundColor(Color.RED);
+                            }
+                            else if (alt_pressionada == 4){
+                                mCardAltD.setCardBackgroundColor(Color.RED);
+                            }
+                        }
+
+                        if (questao_atual<=9) {
+                            finish();
+                            goToNextQuestion();
+                        }
+                        else if(questao_atual == 10){
+                            if (pressed == 1) {
+                                escreve_usuario_pont_nivel((int) pontuacao);
+                                finish();
+                                goToFeedback();
+                            }
+                        }
+                        else{
+                            finish();
+                            goToNiveis();
+                        }
+
                     }
-                }
-                else{
-                    finish();
-                    goToNiveis();
-                }
+                }, 1000);   //1 second
 
                 return true;
             }
@@ -440,7 +452,9 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
             return 0;
         }
 
-        pont = (float) (pont + Math.log10(10*nivel)*Math.log10(10*camada)*(120 - facilidade_questao) + (180 - tempo));
+        float nova = (float) (Math.log10(10*nivel)*Math.log10(10*camada)*(120 - facilidade_questao) + (180 - tempo));
+        pont = pont + nova;
+        Toast.makeText(getApplicationContext(), "+ " + nova + " pontos !", Toast.LENGTH_SHORT).show();
 
         if (pont <=10){
             return 10;

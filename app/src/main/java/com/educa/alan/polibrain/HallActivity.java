@@ -174,12 +174,9 @@ public class HallActivity extends AppCompatActivity
             mat.setVisibility(View.VISIBLE);
             fis.setVisibility(View.GONE);
         } else if (id == R.id.fisica) {
-            mat.setVisibility(View.GONE);
-            fis.setVisibility(View.VISIBLE);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            Toast.makeText(getApplicationContext(), "Em andamento ...", Toast.LENGTH_SHORT).show();
+            //mat.setVisibility(View.GONE);
+            //fis.setVisibility(View.VISIBLE);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

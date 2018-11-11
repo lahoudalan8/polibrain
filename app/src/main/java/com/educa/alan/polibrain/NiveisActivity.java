@@ -28,7 +28,8 @@ public class NiveisActivity extends AppCompatActivity {
     // Nome dos níveis:
     String[][] nomes_camadas = new String[][]{
             {"Soma", "Subtração", "Expressões 1", "Expressões 2", "Multiplicação", "Divisão"},
-            {"MDC", "MMC", "Frações Irredutíveis"}
+            {"MDC", "MMC", "Frações Irredutíveis", "Soma e Subtração de Frações", "Multiplicação de Frações", "Divisão de Frações"},
+            {"Equações 1°grau"}
     };
 
 
