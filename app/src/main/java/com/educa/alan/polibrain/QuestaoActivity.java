@@ -246,10 +246,10 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
 
         mTextAltA.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                mCardAltA.setBackgroundResource(R.color.colorCard);
-                mCardAltB.setBackgroundResource(R.color.colorCardLight);
-                mCardAltC.setBackgroundResource(R.color.colorCardLight);
-                mCardAltD.setBackgroundResource(R.color.colorCardLight);
+                mCardAltA.setBackgroundResource(R.color.colorCardLight);
+                mCardAltB.setBackgroundResource(R.color.colorCard);
+                mCardAltC.setBackgroundResource(R.color.colorCard);
+                mCardAltD.setBackgroundResource(R.color.colorCard);
 
                 alt_pressionada = 1;
                 mButtonConfirmar.setVisibility(View.VISIBLE);
@@ -261,10 +261,10 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         mTextAltB.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                mCardAltA.setBackgroundResource(R.color.colorCardLight);
-                mCardAltB.setBackgroundResource(R.color.colorCard);
-                mCardAltC.setBackgroundResource(R.color.colorCardLight);
-                mCardAltD.setBackgroundResource(R.color.colorCardLight);
+                mCardAltA.setBackgroundResource(R.color.colorCard);
+                mCardAltB.setBackgroundResource(R.color.colorCardLight);
+                mCardAltC.setBackgroundResource(R.color.colorCard);
+                mCardAltD.setBackgroundResource(R.color.colorCard);
 
                 alt_pressionada = 2;
                 mButtonConfirmar.setVisibility(View.VISIBLE);
@@ -276,10 +276,10 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         mTextAltC.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                mCardAltA.setBackgroundResource(R.color.colorCardLight);
-                mCardAltB.setBackgroundResource(R.color.colorCardLight);
-                mCardAltC.setBackgroundResource(R.color.colorCard);
-                mCardAltD.setBackgroundResource(R.color.colorCardLight);
+                mCardAltA.setBackgroundResource(R.color.colorCard);
+                mCardAltB.setBackgroundResource(R.color.colorCard);
+                mCardAltC.setBackgroundResource(R.color.colorCardLight);
+                mCardAltD.setBackgroundResource(R.color.colorCard);
 
                 alt_pressionada = 3;
                 mButtonConfirmar.setVisibility(View.VISIBLE);
@@ -291,10 +291,10 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
         mTextAltD.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                mCardAltA.setBackgroundResource(R.color.colorCardLight);
-                mCardAltB.setBackgroundResource(R.color.colorCardLight);
-                mCardAltC.setBackgroundResource(R.color.colorCardLight);
-                mCardAltD.setBackgroundResource(R.color.colorCard);
+                mCardAltA.setBackgroundResource(R.color.colorCard);
+                mCardAltB.setBackgroundResource(R.color.colorCard);
+                mCardAltC.setBackgroundResource(R.color.colorCard);
+                mCardAltD.setBackgroundResource(R.color.colorCardLight);
 
                 alt_pressionada = 4;
                 mButtonConfirmar.setVisibility(View.VISIBLE);
@@ -610,6 +610,10 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
             saveDialog.show();
         }
 
+    }
+
+    public void clicaButDif(View view) {
+        Toast.makeText(getApplicationContext(), "Dificuldade da questão", Toast.LENGTH_SHORT).show();
     }
 }
 

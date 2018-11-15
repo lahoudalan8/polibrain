@@ -24,43 +24,130 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
                 android:orientation="vertical"
                 tools:context=".HallActivity">
 
-                <com.educa.alan.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/mat1"
-                    android:layout_width="196dp"
-                    android:layout_height="196dp"
-                    android:clickable="true"
-                    android:cropToPadding="false"
-                    android:onClick="clicaMat1"
-                    android:src="@drawable/matbas"
-                    app:civ_border_color="#FF000000"
-                    app:civ_border_width="5dp"
-                    tools:ignore="OnClick" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <com.educa.alan.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/mat2"
-                    android:layout_width="196dp"
-                    android:layout_height="196dp"
-                    android:clickable="true"
-                    android:onClick="clicaMat2"
-                    android:src="@drawable/fracoes"
-                    app:civ_border_color="#FF000000"
-                    app:civ_border_width="5dp"
-                    tools:ignore="OnClick" />
+                    <com.educa.alan.circleimageview.CircleImageView
+                        android:id="@+id/mat1"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_margin="15dp"
+                        android:clickable="true"
+                        android:cropToPadding="false"
+                        android:onClick="clicaMat1"
+                        android:src="@drawable/matbas"
+                        app:civ_border_color="#FF000000"
+                        app:civ_border_width="5dp"
+                        tools:ignore="OnClick" />
 
-                <com.educa.alan.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/mat3"
-                    android:layout_width="196dp"
-                    android:layout_height="196dp"
-                    android:clickable="true"
-                    android:onClick="clicaMat3"
-                    android:src="@drawable/equacoes"
-                    app:civ_border_color="#FF000000"
-                    app:civ_border_width="5dp"
-                    tools:ignore="OnClick" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="Matemática Básica"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="Melhore as suas habilidades básicas da matemática. A velocidade é o maior segredo deste grupo de tópicos" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.educa.alan.circleimageview.CircleImageView
+                        android:id="@+id/mat2"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_margin="15dp"
+                        android:clickable="true"
+                        android:onClick="clicaMat2"
+                        android:src="@drawable/fracoes"
+                        app:civ_border_color="#FF000000"
+                        app:civ_border_width="5dp"
+                        tools:ignore="OnClick" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView11"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="Frações"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="Aborda os alicerces e as operações básicas para resolver exercícios que envolvem frações" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.educa.alan.circleimageview.CircleImageView
+                        android:id="@+id/mat3"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_margin="15dp"
+                        android:clickable="true"
+                        android:onClick="clicaMat3"
+                        android:src="@drawable/equacoes"
+                        app:civ_border_color="#FF000000"
+                        app:civ_border_width="5dp"
+                        tools:ignore="OnClick" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="Equações"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="Explore os diversos tipos de equações que existem na matemática. Encontrar o X pode envolver uma gama muito grande da matemática" />
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
 

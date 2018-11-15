@@ -12,6 +12,9 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
@@ -22,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build(),
                 new AuthUI.IdpConfig.FacebookBuilder().build());
 
@@ -31,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
                 AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
-                //.setLogo(R.drawable.ic_launcher_foreground)      // Set logo drawable
+                .setLogo(R.drawable.ic_logo_pb_vector)      // Set logo drawable
                 //.setTheme(R.style.MySuperAppTheme)      // Set theme
                 .setTosUrl("https://superapp.example.com/terms-of-service.html")
-                .setPrivacyPolicyUrl("https://superapp.example.com/privacy-policy.html")
+                .setPrivacyPolicyUrl("https://www.freeprivacypolicy.com/blog/sample-privacy-policy-template/")
                 .setIsSmartLockEnabled(false)
                 .build(),
                 RC_SIGN_IN);

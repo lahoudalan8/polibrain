@@ -186,22 +186,22 @@ public class NiveisActivity extends AppCompatActivity {
 
     // CLicando nos videos dos níveis
     public void clica_n1_video(View view) {
-        Toast.makeText(this, "Não há video no momento", Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), "Não há video no momento", Toast.LENGTH_SHORT).show();
     }
     public void clica_n2_video(View view) {
-        Toast.makeText(this, "Não há video no momento", Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), "Não há video no momento", Toast.LENGTH_SHORT).show();
     }
     public void clica_n3_video(View view) {
-        Toast.makeText(this, "Não há video no momento", Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), "Não há video no momento", Toast.LENGTH_SHORT).show();
     }
     public void clica_n4_video(View view) {
-        Toast.makeText(this, "Não há video no momento", Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), "Não há video no momento", Toast.LENGTH_SHORT).show();
     }
     public void clica_n5_video(View view) {
-        Toast.makeText(this, "Não há video no momento", Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), "Não há video no momento", Toast.LENGTH_SHORT).show();
     }
     public void clica_n6_video(View view) {
-        Toast.makeText(this, "Não há video no momento", Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), "Não há video no momento", Toast.LENGTH_SHORT).show();
     }
 
     @Override
