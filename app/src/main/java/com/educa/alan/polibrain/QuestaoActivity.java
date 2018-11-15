@@ -90,7 +90,7 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
 
     // Dados do banco de questões
     private int camada, nivel;
-    private String [] nome_camada = {"mat_bas","fracoes"};
+    private String [] nome_camada = {"mat_bas","fracoes","equacoes"};
     private String [][] nome_nivel = {
             {"soma","subtracao","expressoes1","expressoes2","multiplicacao","divisao"},
             {"mdc", "mmc", "irredutiveis", "somafrac", "multfrac", "divfrac"},
@@ -452,7 +452,7 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
             return 0;
         }
 
-        float nova = (float) (Math.log10(10*nivel)*Math.log10(10*camada)*(120 - facilidade_questao) + (180 - tempo));
+        int nova = (int) (Math.log10(10*nivel)*Math.log10(10*camada)*(120 - facilidade_questao) + (180 - tempo));
         pont = pont + nova;
         Toast.makeText(getApplicationContext(), "+ " + nova + " pontos !", Toast.LENGTH_SHORT).show();
 

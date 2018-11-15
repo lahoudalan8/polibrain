@@ -29,7 +29,7 @@ public class FeedbackActivity extends AppCompatActivity {
         Intent intent = getIntent();
         camada = intent.getExtras().getInt("camada");
         nivel = intent.getExtras().getInt("nivel");
-        pontuacao = intent.getExtras().getInt("pontuacao");
+        pontuacao = (int) intent.getExtras().getFloat("pontuacao");
         acertos = intent.getExtras().getInt("acertos");
         tempo = intent.getExtras().getInt("tempo");
 

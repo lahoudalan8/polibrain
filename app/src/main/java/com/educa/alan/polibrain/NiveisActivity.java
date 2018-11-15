@@ -2,19 +2,40 @@ package com.educa.alan.polibrain;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+
+import static com.firebase.ui.auth.AuthUI.TAG;
+
 public class NiveisActivity extends AppCompatActivity {
 
     private static int NumeroNiveis = 6;
+
+    private String email_usuario;
 
     // Dados de layout dos niveis
     private CardView niveisCard[] = new CardView[NumeroNiveis];
@@ -37,6 +58,9 @@ public class NiveisActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_niveis);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        email_usuario = user.getEmail();
 
         Intent intent = getIntent();
         camada = intent.getExtras().getInt("camada");
@@ -76,6 +100,40 @@ public class NiveisActivity extends AppCompatActivity {
         for(int i=0; i<NumeroNiveis; i++){
             temp = getResources().getIdentifier(id_ponts[i], "id", getPackageName());
             niveisPont[i] = (TextView) findViewById(temp);
+
+            FirebaseFirestore db;
+            db = FirebaseFirestore.getInstance();
+            DocumentReference docRef;
+
+            // Create a reference to the cities collection
+            CollectionReference pontNiveisRef = db.collection("usuarios_pont_niveis");
+
+            // Create a query against the collection.
+            Query query = pontNiveisRef.whereEqualTo("email_usr", email_usuario).whereEqualTo("camada", camada).orderBy("pontuacao");
+
+            final ArrayList<DocumentSnapshot> pontNiveisDocs = new ArrayList<DocumentSnapshot>();
+
+            query.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    pontNiveisDocs.add(document);
+                                    //tenho que fazer tudo aqui
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+
+                            for (DocumentSnapshot doc: pontNiveisDocs){
+                                int nivel_pego = (int)(long)doc.getLong("nivel");
+                                int pontuacao_pega = (int)(long)doc.getLong("pontuacao");
+                                niveisPont[nivel_pego-1].setText(Integer.toString(pontuacao_pega));
+                            }
+
+                        }
+                    });
         }
 
     }

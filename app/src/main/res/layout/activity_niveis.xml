@@ -82,7 +82,7 @@
                             android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="500"
+                            android:text="0"
                             android:textSize="30sp"
                             android:textStyle="bold|italic" />
                     </LinearLayout>
@@ -157,7 +157,7 @@
                             android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="500"
+                            android:text="0"
                             android:textSize="30sp"
                             android:textStyle="bold|italic" />
                     </LinearLayout>
@@ -232,7 +232,7 @@
                             android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="500"
+                            android:text="0"
                             android:textSize="30sp"
                             android:textStyle="bold|italic" />
                     </LinearLayout>
@@ -307,7 +307,7 @@
                             android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="500"
+                            android:text="0"
                             android:textSize="30sp"
                             android:textStyle="bold|italic" />
                     </LinearLayout>
@@ -382,7 +382,7 @@
                             android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="500"
+                            android:text="0"
                             android:textSize="30sp"
                             android:textStyle="bold|italic" />
                     </LinearLayout>
@@ -457,7 +457,7 @@
                             android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="500"
+                            android:text="0"
                             android:textSize="30sp"
                             android:textStyle="bold|italic" />
                     </LinearLayout>
