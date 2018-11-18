@@ -43,9 +43,12 @@ public class AmigosActivity extends AppCompatActivity {
 
 
     private static int NumeroAmigos = 5;
+    private static int NumCamadas = 3;
 
 
     private String email_usuario;
+
+    private ArrayList<String> email_amigos = new ArrayList<String>();
 
     // Dados de layout dos niveis
     private CardView amigosCard[] = new CardView[NumeroAmigos];
@@ -89,11 +92,64 @@ public class AmigosActivity extends AppCompatActivity {
             i = i + 1;
         }
 
+        String[] id_c1_ = new String[]{"progressBar_Amigo1", "progressBar_Amigo2", "progressBar_Amigo3", "progressBar_Amigo4", "progressBar_Amigo5"};
+        flag = 0;
+        i = 0;
+        while (flag == 0){
+            try {
+                temp = getResources().getIdentifier(id_c1_[i], "id", getPackageName());
+                amigosC1[i] = (ProgressBar) findViewById(temp);
+            } catch (Exception e) {
+                flag = 1;
+            }
+            i = i + 1;
+        }
+
+        String[] id_c2_ = new String[]{"progressBar2_Amigo1", "progressBar2_Amigo2", "progressBar2_Amigo3", "progressBar2_Amigo4", "progressBar2_Amigo5"};
+        flag = 0;
+        i = 0;
+        while (flag == 0){
+            try {
+                temp = getResources().getIdentifier(id_c2_[i], "id", getPackageName());
+                amigosC2[i] = (ProgressBar) findViewById(temp);
+            } catch (Exception e) {
+                flag = 1;
+            }
+            i = i + 1;
+        }
+
+        String[] id_c3_ = new String[]{"progressBar3_Amigo1", "progressBar3_Amigo2", "progressBar3_Amigo3", "progressBar3_Amigo4", "progressBar3_Amigo5"};
+        flag = 0;
+        i = 0;
+        while (flag == 0){
+            try {
+                temp = getResources().getIdentifier(id_c3_[i], "id", getPackageName());
+                amigosC3[i] = (ProgressBar) findViewById(temp);
+            } catch (Exception e) {
+                flag = 1;
+            }
+            i = i + 1;
+        }
+
+        String[] id_pont_ = new String[]{"mPont_amigo1", "mPont_amigo2", "mPont_amigo3", "mPont_amigo4", "mPont_amigo5"};
+        flag = 0;
+        i = 0;
+        while (flag == 0){
+            try {
+                temp = getResources().getIdentifier(id_pont_[i], "id", getPackageName());
+                amigosPont[i] = (TextView) findViewById(temp);
+            } catch (Exception e) {
+                flag = 1;
+            }
+            i = i + 1;
+        }
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         email_usuario = user.getEmail();
 
         verifica_amigos();
+
     }
 
     public void clicaAddAmigo(View view) {
@@ -175,12 +231,14 @@ public class AmigosActivity extends AppCompatActivity {
     }
 
     public void carrega_amigos(ArrayList<DocumentSnapshot> amigos){
+        int amigo_atual = 0;
+        carrega_amigo(email_usuario,amigo_atual);
+        amigo_atual++;
         if (amigos.size() == 0){
             return;
         }
         else {
             for (int i=0; i<amigos.size(); i++) {
-                int amigo_atual = 0;
                 DocumentSnapshot amigo = amigos.get(i);
                 String email_amigo = amigo.getString("email_amigo");
                 int status_amigo = (int)(long)(amigo.getLong("status"));
@@ -196,6 +254,116 @@ public class AmigosActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void carrega_amigo(String email_usuario, int amigo_atual){
+        amigosCard[amigo_atual].setVisibility(View.VISIBLE);
+        amigosNome[amigo_atual].setText(email_usuario);
+        recebe_pont_amigo(email_usuario, amigo_atual);
+        email_amigos.add(email_usuario);
+    }
+
+
+    public void recebe_pont_amigo(String email_usuario, int amigo) {
+        FirebaseFirestore db;
+        db = FirebaseFirestore.getInstance();
+
+        final ArrayList<DocumentSnapshot> usr_doc = new ArrayList<DocumentSnapshot>() ;
+
+        int flag = 0;
+        while (flag == 0){
+            try{
+                db.collection("usuarios_pont_niveis")
+                        .orderBy("pontuacao")
+                        .whereEqualTo("email_usr", email_usuario)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        usr_doc.add(document);
+                                    }
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+
+                                mostra_pont_camada(usr_doc);
+
+
+                            }
+                        });
+                flag = 1;
+            }catch(Exception e){
+                flag = 0;
+            }
+
+        }
+
+    }
+
+    public void mostra_pont_camada(ArrayList<DocumentSnapshot> usr_doc){
+
+        ArrayList<Integer> cam_japeguei = new ArrayList<Integer>();
+        ArrayList<Integer> niv_japeguei = new ArrayList<Integer>();
+
+        int[] cam_ponts =  new int[NumCamadas];
+
+        for (int ca = 0; ca<NumCamadas; ca++){
+            cam_ponts[ca]= 0;
+        }
+
+        int num_linhas = usr_doc.size();
+
+        String e = "";
+        if (num_linhas == 0){
+            return;
+        }
+
+        for(int i=num_linhas-1; i>=0; i--){
+            DocumentSnapshot linha_atual = usr_doc.get(i);
+            int c = (int)(long)linha_atual.getLong("camada");
+            int n = (int)(long)linha_atual.getLong("nivel");
+            int p = (int)(long)linha_atual.getLong("pontuacao");
+            e = linha_atual.getString("email_usr");
+            if (cam_japeguei.contains(c) && niv_japeguei.contains(n)){
+                continue;
+            }
+            else{
+                cam_ponts[c-1] = cam_ponts[c-1] + p;
+                cam_japeguei.add(c);
+                niv_japeguei.add(n);
+            }
+        }
+        int amigo;
+
+        if (e.equals(email_usuario)){
+            amigo = -2;
+        }
+
+        else {
+            amigo = email_amigos.indexOf(e);
+        }
+
+        if (amigo == -1){
+            return;
+        }
+
+        if (amigo == -2){
+            amigo = 0;
+        }
+
+        amigosC1[amigo].setMax(20000);
+        amigosC1[amigo].setProgress(cam_ponts[0]);
+
+        amigosC2[amigo].setMax(20000);
+        amigosC2[amigo].setProgress(cam_ponts[1]);
+
+        amigosC3[amigo].setMax(20000);
+        amigosC3[amigo].setProgress(cam_ponts[2]);
+
+        amigosPont[amigo].setText(String.valueOf(cam_ponts[0]+cam_ponts[1]+cam_ponts[2]) + " pontos");
+
     }
 
     public void aceita_pedido(final String email_amigo){
@@ -214,11 +382,6 @@ public class AmigosActivity extends AppCompatActivity {
                     }
                 })
                 .show();
-    }
-
-    public void carrega_amigo(String email_usuario, int amigo_atual){
-        amigosCard[amigo_atual].setVisibility(View.VISIBLE);
-        amigosNome[amigo_atual].setText(email_usuario);
     }
 
     public void update_amizade(String email_usr, String email_amigo, int status_novo){

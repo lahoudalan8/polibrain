@@ -80,6 +80,7 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
     private CardView mCardAltA, mCardAltB, mCardAltC, mCardAltD;
     private MathView mTextEnunciado, mTextAltA, mTextAltB, mTextAltC, mTextAltD;
     private Button mButtonConfirmar;
+    private ImageView mButtonDificuldade;
 
     // Dados da interação com o usuario
     private int alt_pressionada = 0;
@@ -96,6 +97,15 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
             {"mdc", "mmc", "irredutiveis", "somafrac", "multfrac", "divfrac"},
             {"1grau"}
     };
+
+    private int [] mensagem_dificuldade = {
+            R.string.g0, R.string.g1, R.string.g2, R.string.g3, R.string.g4, R.string.g5, R.string.g6, R.string.g7, R.string.g8, R.string.g9, R.string.g10
+    };
+
+    private int[] cor_dificuldade = {
+            R.color.g0, R.color.g1, R.color.g2, R.color.g3, R.color.g4, R.color.g5, R.color.g6, R.color.g7, R.color.g8, R.color.g9, R.color.g10
+    };
+
 
     // Dados do usuario
     private String email_usuario;
@@ -132,6 +142,7 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
 
         mTextQuestaoX = (TextView) findViewById(R.id.id_questao_x);
         mChronometer = (Chronometer) findViewById(R.id.id_chronometer);
+        mButtonDificuldade = (ImageView) findViewById(R.id.mbut_dificuldade);
 
         mTextEnunciado = (MathView) findViewById(R.id.mTextEnunciado);
         mTextAltA = (MathView) findViewById(R.id.mTextAltA);
@@ -183,7 +194,8 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
 
                         //double mediaFacilidade = util_questao.calculaMedia(questoes_doc);
                         //double stdFacilidade = util_questao.calculaDesvio(questoes_doc, mediaFacilidade);
-                        int id = util_questao.calculaMelhorId(questoes_doc, 0, 0);
+                        int grupo_ideal = util_questao.calculaMelhorGrupo(questao_atual, pontuacao);
+                        int id = util_questao.calculaMelhorId(questoes_doc, 0, 0, grupo_ideal);
                         DocumentSnapshot questao_ideal = questoes_doc.get(id);
                         id_ideal = questao_ideal.getId();
                         String enunciado = questao_ideal.getString("enunciado");
@@ -194,6 +206,8 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
 
                         grupo_questao = (int) (long) questao_ideal.getLong("grupo");
                         alt_correta = (int) (long) questao_ideal.getLong("alt_correta");
+
+                        mButtonDificuldade.setImageResource(cor_dificuldade[grupo_questao]);
 
                         mChronometer.setBase(SystemClock.elapsedRealtime());
                         mChronometer.start();
@@ -322,11 +336,6 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                                 tempo_total = tempo_total + tempo;
                                 escreve_usuario_pont_questoes(1, tempo);
                             }
-                            // Escrever o acerto no Usr_Questao
-                            // Escrever o acerto no Usuario
-                            // Escrever a tentativa na Questao
-                            // Escrever o acerto na Questao
-                            // Escrever a facilidade na Questao
 
                             if (alt_pressionada == 1){
                                 mCardAltA.setCardBackgroundColor(Color.GREEN);
@@ -351,10 +360,6 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                                 escreve_usuario_pont_questoes(0, tempo);
                             }
 
-                            // Escrever o erro no Usr_Questao
-                            // Escrever o erro no Usuario
-                            // Escrever a tentativa na Questao
-                            // EScrever a facilidade na Questao
 
                             if (alt_pressionada == 1){
                                 mCardAltA.setCardBackgroundColor(Color.RED);
@@ -446,18 +451,26 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
                 .add(nivel_usuario);
     }
 
-    public float calculaPontuacao(float pont, int acerto, int tempo, int facilidade_questao){
+    public float calculaPontuacao(float pont, int acerto, int tempo, int grupo){
 
         if (acerto == 0){
-            return 0;
+            return pont;
         }
 
-        int nova = (int) (Math.log10(10*nivel)*Math.log10(10*camada)*(120 - facilidade_questao) + (180 - tempo));
-        pont = pont + nova;
-        Toast.makeText(getApplicationContext(), "+ " + nova + " pontos !", Toast.LENGTH_SHORT).show();
+        int bonus;
+        if (grupo == 0){
+            bonus = 150;
+        }
+        else{
+            bonus = 30*grupo;
+        }
 
-        if (pont <=10){
-            return 10;
+        int nova = (int) (bonus + (300 - 5*tempo));
+        pont = pont + nova;
+        Toast.makeText(getApplicationContext(), "+ " + String.valueOf(nova) + " pontos !", Toast.LENGTH_SHORT).show();
+
+        if (pont <=30){
+            return pont + 30;
         }
 
         return pont;
@@ -613,7 +626,7 @@ public class QuestaoActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void clicaButDif(View view) {
-        Toast.makeText(getApplicationContext(), "Dificuldade da questão", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getResources().getString(mensagem_dificuldade[grupo_questao]), Toast.LENGTH_SHORT).show();
     }
 }
 

@@ -6,4 +6,21 @@
     <color name="colorCard">#1e781a</color>
     <color name="colorCardLight">#34d12d</color>
     <color name="black_overlay">#66000000</color>
+
+    <!-- Cores da dificuldade da questão -->
+    <color name="g0">#66000000</color>
+    <color name="g1">#e8ff3d</color>
+    <color name="g2">#fffc3d</color>
+    <color name="g3">#ffef3d</color>
+    <color name="g4">#ffe23d</color>
+    <color name="g5">#ffc83d</color>
+    <color name="g6">#ffa83d</color>
+    <color name="g7">#ff983d</color>
+    <color name="g8">#ff713d</color>
+    <color name="g9">#ff573d</color>
+    <color name="g10">#ff3d3d</color>
+
+
+
+
 </resources>

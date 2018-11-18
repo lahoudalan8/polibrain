@@ -64,5 +64,18 @@
     <string name="c2n2">MMC</string>
     <string name="c3n3">Frações Irredutíveis</string>
 
+    <!-- Dificuldade dos grupos -->
+    <string name="g0">Ainda sem classificação</string>
+    <string name="g1">Tera fácil</string>
+    <string name="g2">Giga fácil</string>
+    <string name="g3">Mega fácil</string>
+    <string name="g4">Fácil</string>
+    <string name="g5">Na média</string>
+    <string name="g6">Difícil</string>
+    <string name="g7">Mega difícil</string>
+    <string name="g8">Giga difícil</string>
+    <string name="g9">Tera difícil</string>
+    <string name="g10">Grupo mestre</string>
+
 
 </resources>

@@ -17,7 +17,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
     // Dados de Layout
     private TextView mTextPont, mTextAcerto, mTextTempo;
-    private RatingBar mRating, mRatingA1, mRatingA2;
+    private RatingBar mRating;
     private ImageView mIA1, mIA2;
 
     @Override
@@ -37,11 +37,13 @@ public class FeedbackActivity extends AppCompatActivity {
         mTextPont = (TextView) findViewById(R.id.mtext_pontuacao);
         mTextAcerto = (TextView) findViewById(R.id.mtext_acertos);
         mTextTempo = (TextView) findViewById(R.id.mtext_tempo);
+        mRating = (RatingBar) findViewById(R.id.mRating);
 
         // Alimentando o Layout
         mTextPont.setText(String.valueOf(pontuacao));
         mTextAcerto.setText(String.valueOf(acertos) + "/10");
         mTextTempo.setText(String.valueOf(tempo) + " s");
+        mRating.setRating((float)5*pontuacao/4000);
 
     }
 
